@@ -3,194 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index
-</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Convite de Faina - Patrão</title>
     <style>
+        /* Importa uma letra clássica (serifada) para dar solenidade ao convite */
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
+
         body {
-            /* Fundo verde escuro e preto (Cores da U.A.) */
-            background: radial-gradient(circle at center, #064e3b 0%, #000000 100%);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .titulo-faina {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #003322 0%, #000000 100%);
             font-family: 'Merriweather', serif;
+            color: #f2f2f2;
+            overflow: hidden; /* Impede que o ecrã ganhe barras de scroll quando o botão foge */
         }
 
-        /* Animação para a chuva de sal e barcos */
-        @keyframes fall {
-            0% {
-                transform: translateY(-10vh) rotate(0deg) scale(0.8);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh) rotate(360deg) scale(1.2);
-                opacity: 0;
-            }
+        #convite-container {
+            background-color: rgba(10, 10, 10, 0.85);
+            border: 2px solid #006644;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 10;
         }
 
-        .falling-item {
-            position: fixed;
-            font-size: 2.5rem;
-            pointer-events: none;
-            z-index: 100;
-            animation: fall linear forwards;
-            top: -10vh;
+        h1 {
+            color: #ffffff;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #006644;
+            padding-bottom: 10px;
         }
 
-        /* Transição suave para o botão fujão */
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #d9d9d9;
+        }
+
+        .botoes {
+            position: relative;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            font-family: 'Merriweather', serif;
+            font-size: 1.1em;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            color: white;
+        }
+
+        #btn-sim {
+            background-color: #006644; /* Verde da Academia de Aveiro */
+            box-shadow: 0 4px 15px rgba(0, 102, 68, 0.4);
+            margin-right: 20px;
+        }
+
+        #btn-sim:hover {
+            background-color: #008855;
+            transform: scale(1.05);
+        }
+
         #btn-nao {
-            transition: top 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background-color: #8b0000; /* Vermelho escuro */
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+            position: absolute;
+            left: 55%; /* Posição inicial ao lado do Sim */
         }
 
-        /* Ondas decorativas no fundo */
-        .wave {
+        #sucesso-container {
+            display: none;
+            text-align: center;
+            z-index: 20;
+        }
+
+        #sucesso-container h1 {
+            font-size: 3em;
+            color: #ffffff;
+            text-shadow: 2px 2px 10px #006644;
+            border: none;
+        }
+
+        .emoji-chuva {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23ffffff" fill-opacity="0.05" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
-            background-size: cover;
-            z-index: 0;
-            pointer-events: none;
+            top: -50px;
+            font-size: 2.5em;
+            animation: cair linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes cair {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
-<body class="min-h-screen text-white flex items-center justify-center overflow-hidden relative selection:bg-green-500 selection:text-white">
+<body>
 
-    <div class="wave"></div>
-
-    <!-- MAIN CARD -->
-    <div id="main-card" class="bg-black/80 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl max-w-2xl text-center border-4 border-green-900/50 z-10 mx-4 relative">
-        <div class="absolute -top-6 -left-6 text-6xl opacity-20 transform -rotate-12">🛶</div>
-        <div class="absolute -bottom-6 -right-6 text-6xl opacity-20 transform rotate-12">🧂</div>
-
-        <h1 class="titulo-faina text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] tracking-wide">
-            Um Pedido no Salgado Académico
-        </h1>
+    <div id="convite-container">
+        <h1>Mui Ilustre Marnoto Rocha</h1>
+        <p>Neste vasto Salgado Académico, as marés cruzaram os nossos caminhos. Embora o tempo partilhado na Faina tenha sido breve, foi o suficiente para reconhecer na sua pessoa o mestre e mentor que eu desejava ter a guiar-me.</p>
+        <p>É com o mais profundo respeito pela tradição de Aveiro que lhe dirijo este pedido: dar-me-ia a enorme honra de me aceitar como seu Lodo e ser o meu Patrão?</p>
         
-        <div class="text-lg md:text-xl mb-6 text-gray-200 leading-relaxed font-light titulo-faina text-left">
-            <p class="mb-4">Ao ilustre Marnoto Rocha,</p>
-            <p>Apesar de não termos tido a oportunidade de partilhar muito tempo juntos nestas lides, a sua postura e a sua experiência transmitiram-me um grande respeito. Pareceu-me ser a pessoa ideal por quem eu gostaria muito de ser mentorado e guiado nesta Faina.</p>
-        </div>
-
-        <p class="text-2xl font-semibold mb-10 text-white italic titulo-faina">
-            O Marnoto Rocha aceita dar-me a enorme honra de ser o meu Patrão?
-        </p>
-
-        <!-- CONTAINER DOS BOTÕES -->
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-6 relative min-h-[60px]">
-            <!-- Botão SIM -->
-            <button id="btn-sim" class="bg-gradient-to-r from-green-700 to-green-500 hover:from-green-600 hover:to-green-400 text-white font-bold py-4 px-8 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.4)] transform transition duration-300 hover:scale-105 active:scale-95 text-lg z-20 border border-green-400/30">
-                Sim, concedo o Nó de Azelha
-            </button>
-            
-            <!-- Botão NÃO -->
-            <button id="btn-nao" class="bg-red-950 hover:bg-red-900 text-gray-300 border-2 border-red-800 font-bold py-4 px-8 rounded-full shadow-lg text-lg z-30 cursor-not-allowed transition-colors duration-300">
-                Deixar no Lodo
-            </button>
+        <div class="botoes">
+            <button id="btn-sim" onclick="aceitar()">Entregar Nó de Azelha</button>
+            <button id="btn-nao" onmouseover="fugir()" ontouchstart="fugir()">Deixar no Lodo</button>
         </div>
     </div>
 
-    <!-- SUCCESS SCREEN (Escondido por defeito) -->
-    <div id="success-screen" class="hidden fixed inset-0 bg-gradient-to-br from-green-900 to-black z-50 flex-col items-center justify-center p-4">
-        <div class="text-center transform transition-all duration-700 scale-0" id="success-content">
-            <h1 class="titulo-faina text-6xl md:text-8xl font-black text-white mb-6 drop-shadow-[0_0_25px_rgba(255,255,255,0.8)]">
-                HABEMUS PATRÃO!
-            </h1>
-            <p class="text-3xl md:text-4xl text-green-400 font-semibold mb-8">
-                O Salgado Académico rejubila! 🎓
-            </p>
-        </div>
+    <div id="sucesso-container">
+        <h1>HABEMUS PATRÃO!</h1>
+        <p>O Salgado Académico celebra esta ilustre união!</p>
     </div>
 
     <script>
-        const btnSim = document.getElementById('btn-sim');
         const btnNao = document.getElementById('btn-nao');
-        const mainCard = document.getElementById('main-card');
-        const successScreen = document.getElementById('success-screen');
-        const successContent = document.getElementById('success-content');
 
-        // FUNÇÃO PARA MOVER O BOTÃO "NÃO"
-        const moveButton = () => {
-            // Muda o position para fixed na primeira vez que foge para poder andar pelo ecrã todo livremente
-            if (btnNao.style.position !== 'fixed') {
-                btnNao.style.position = 'fixed';
-            }
-
-            // Margens de segurança para o botão não sair do ecrã
-            const padding = 20; 
+        // Função que faz o botão "Não" fugir do rato ou do dedo
+        function fugir() {
+            btnNao.style.position = 'fixed'; // Desprende o botão do texto
+            
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
             const btnWidth = btnNao.offsetWidth;
             const btnHeight = btnNao.offsetHeight;
-
-            const maxX = window.innerWidth - btnWidth - padding;
-            const maxY = window.innerHeight - btnHeight - padding;
-
-            // Posições aleatórias
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-
+            
+            // Calcula posições aleatórias para o ecrã atual
+            const randomX = Math.random() * (windowWidth - btnWidth);
+            const randomY = Math.random() * (windowHeight - btnHeight);
+            
             btnNao.style.left = randomX + 'px';
             btnNao.style.top = randomY + 'px';
-        };
+        }
 
-        // Eventos para o botão fugir (rato e mobile)
-        btnNao.addEventListener('mouseover', moveButton);
-        btnNao.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Previne o clique em mobile
-            moveButton();
-        });
+        // Função que é ativada quando o Marnoto clica no "Sim"
+        function aceitar() {
+            document.getElementById('convite-container').style.display = 'none';
+            document.getElementById('sucesso-container').style.display = 'block';
+            iniciarChuva();
+        }
 
-        // AÇÃO DO BOTÃO "SIM"
-        btnSim.addEventListener('click', () => {
-            // Esconde cartão da pergunta
-            mainCard.classList.add('hidden');
+        // Função que cria a chuva infinita de Emojis ligados a Aveiro e à Praxe
+        function iniciarChuva() {
+            // O Nó, o Moliceiro, o Sal, a Água, o Canudo e a Cor Verde
+            const emojis = ['🪢', '🛶', '🧂', '🌊', '🎓', '💚'];
             
-            // Mostra ecrã de sucesso
-            successScreen.classList.remove('hidden');
-            successScreen.classList.add('flex');
-            
-            // Animação de entrada do texto
-            setTimeout(() => {
-                successContent.classList.remove('scale-0');
-                successContent.classList.add('scale-100');
-            }, 100);
-
-            // Iniciar chuva de faina
-            startFainaRain();
-        });
-
-        // CHUVA DE EMOJIS (Barcos e Sal)
-        function startFainaRain() {
-            const emojis = ['🛶', '🧂', '🪢', '🌊', '🎓'];
-            const container = document.body;
-
-            // Cria um novo emoji a cada 150ms
             setInterval(() => {
-                const el = document.createElement('div');
-                el.classList.add('falling-item');
+                const chuva = document.createElement('div');
+                chuva.classList.add('emoji-chuva');
+                chuva.innerText = emojis[Math.floor(Math.random() * emojis.length)];
                 
-                // Escolhe emoji aleatório
-                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                // Posição horizontal aleatória
+                chuva.style.left = Math.random() * 100 + 'vw';
+                // Velocidade de queda aleatória entre 3 e 5 segundos
+                chuva.style.animationDuration = Math.random() * 2 + 3 + 's'; 
                 
-                // Posição X aleatória (0 a 100vw)
-                el.style.left = Math.random() * 100 + 'vw';
+                document.body.appendChild(chuva);
                 
-                // Duração da queda aleatória (entre 3s e 6s) para dar efeito de profundidade
-                const duration = Math.random() * 3 + 3;
-                el.style.animationDuration = duration + 's';
-
-                container.appendChild(el);
-
-                // Limpa o emoji do DOM depois de cair
+                // Apaga o emoji depois de cair para o telemóvel não encravar
                 setTimeout(() => {
-                    el.remove();
-                }, duration * 1000);
-
+                    chuva.remove();
+                }, 5000);
             }, 150);
         }
     </script>
+
 </body>
 </html>
