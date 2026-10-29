@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Faina - Patrão</title>
+    <style>
+        /* Importa uma letra clássica (serifada) para dar solenidade ao convite */
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #003322 0%, #000000 100%);
+            font-family: 'Merriweather', serif;
+            color: #f2f2f2;
+            overflow: hidden; /* Impede que o ecrã ganhe barras de scroll quando o botão foge */
+        }
+
+        #convite-container {
+            background-color: rgba(10, 10, 10, 0.85);
+            border: 2px solid #006644;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #006644;
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #d9d9d9;
+        }
+
+        .botoes {
+            position: relative;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            font-family: 'Merriweather', serif;
+            font-size: 1.1em;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            color: white;
+        }
+
+        #btn-sim {
+            background-color: #006644; /* Verde da Academia de Aveiro */
+            box-shadow: 0 4px 15px rgba(0, 102, 68, 0.4);
+            margin-right: 20px;
+        }
+
+        #btn-sim:hover {
+            background-color: #008855;
+            transform: scale(1.05);
+        }
+
+        #btn-nao {
+            background-color: #8b0000; /* Vermelho escuro */
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+            position: absolute;
+            left: 55%; /* Posição inicial ao lado do Sim */
+        }
+
+        #sucesso-container {
+            display: none;
+            text-align: center;
+            z-index: 20;
+        }
+
+        #sucesso-container h1 {
+            font-size: 3em;
+            color: #ffffff;
+            text-shadow: 2px 2px 10px #006644;
+            border: none;
+        }
+
+        .emoji-chuva {
+            position: fixed;
+            top: -50px;
+            font-size: 2.5em;
+            animation: cair linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes cair {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="convite-container">
+        <h1>Mui Ilustre Marnoto Rocha</h1>
+        <p>Neste vasto Salgado Académico, as marés cruzaram os nossos caminhos. Embora o tempo partilhado na Faina tenha sido breve, foi o suficiente para reconhecer na sua pessoa o mestre e mentor que eu desejava ter a guiar-me.</p>
+        <p>É com o mais profundo respeito pela tradição de Aveiro que lhe dirijo este pedido: dar-me-ia a enorme honra de me aceitar como seu Lodo e ser o meu Patrão?</p>
+        
+        <div class="botoes">
+            <button id="btn-sim" onclick="aceitar()">Entregar Nó de Azelha</button>
+            <button id="btn-nao" onmouseover="fugir()" ontouchstart="fugir()">Deixar no Lodo</button>
+        </div>
+    </div>
+
+    <div id="sucesso-container">
+        <h1>HABEMUS PATRÃO!</h1>
+        <p>O Salgado Académico celebra esta ilustre união!</p>
+    </div>
+
+    <script>
+        const btnNao = document.getElementById('btn-nao');
+
+        // Função que faz o botão "Não" fugir do rato ou do dedo
+        function fugir() {
+            btnNao.style.position = 'fixed'; // Desprende o botão do texto
+            
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            const btnWidth = btnNao.offsetWidth;
+            const btnHeight = btnNao.offsetHeight;
+            
+            // Calcula posições aleatórias para o ecrã atual
+            const randomX = Math.random() * (windowWidth - btnWidth);
+            const randomY = Math.random() * (windowHeight - btnHeight);
+            
+            btnNao.style.left = randomX + 'px';
+            btnNao.style.top = randomY + 'px';
+        }
+
+        // Função que é ativada quando o Marnoto clica no "Sim"
+        function aceitar() {
+            document.getElementById('convite-container').style.display = 'none';
+            document.getElementById('sucesso-container').style.display = 'block';
+            iniciarChuva();
+        }
+
+        // Função que cria a chuva infinita de Emojis ligados a Aveiro e à Praxe
+        function iniciarChuva() {
+            // O Nó, o Moliceiro, o Sal, a Água, o Canudo e a Cor Verde
+            const emojis = ['🪢', '🛶', '🧂', '🌊', '🎓', '💚'];
+            
+            setInterval(() => {
+                const chuva = document.createElement('div');
+                chuva.classList.add('emoji-chuva');
+                chuva.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // Posição horizontal aleatória
+                chuva.style.left = Math.random() * 100 + 'vw';
+                // Velocidade de queda aleatória entre 3 e 5 segundos
+                chuva.style.animationDuration = Math.random() * 2 + 3 + 's'; 
+                
+                document.body.appendChild(chuva);
+                
+                // Apaga o emoji depois de cair para o telemóvel não encravar
+                setTimeout(() => {
+                    chuva.remove();
+                }, 5000);
+            }, 150);
+        }
+    </script>
+
+</body>
+</html>
